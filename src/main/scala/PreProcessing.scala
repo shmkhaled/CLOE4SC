@@ -8,7 +8,7 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger
 
 
 class PreProcessing extends Serializable{
-  def ReConstructOntology(ontologyTriples: RDD[graph.Triple]): RDD[(String, String, String)] = {
+  def RecreateSourceGermanOntologyWithClassLabels(ontologyTriples: RDD[graph.Triple]): RDD[(String, String, String)] = {
     var classLabels: RDD[graph.Triple] = ontologyTriples.filter(x=>x.getPredicate.getLocalName == "label")
 //    println("classes with labels "+classLabels.count())
 //    classLabels.foreach(println(_))
@@ -17,11 +17,30 @@ class PreProcessing extends Serializable{
 //    println("After join")
 //    ontologyWithSubjectClass.foreach(println(_))
 
-    var ontologyWithSubjectAndObjectClass: RDD[(String, String, String)] = ontologyWithSubjectClass.keyBy(_._3).join(classLabels.keyBy(_.getSubject)).map(x=>(this.stringPreProcessing2(x._2._1._1.toString),x._2._1._2.getLocalName,this.stringPreProcessing2(x._2._2.getObject.toString)))
+    var ontologyWithSubjectAndObjectClass: RDD[(String, String, String)] = ontologyWithSubjectClass.keyBy(_._3).join(classLabels.keyBy(_.getSubject)).map(x=>(this.posTagForString(this.stringPreProcessing2(x._2._1._1.toString)),x._2._1._2.getLocalName,this.posTagForString(this.stringPreProcessing2(x._2._2.getObject.toString))))
 //var ontologyWithSubjectAndObjectClass: RDD[(String, String, String)] = ontologyWithSubjectClass.keyBy(_._3).join(classLabels.keyBy(_.getSubject)).map(x=>(x._2._1._1.toString,x._2._1._2.getLocalName,x._2._2.getObject.toString))
       //.map(x=>(x._2._2.getObject,x._2._1._2,x._2._1._3))//.filter(x=>x._2.getLocalName() != "label")
 //    println("After join")
 //    ontologyWithSubjectAndObjectClass.take(5).foreach(println(_))
+
+    ontologyWithSubjectAndObjectClass
+
+  }
+  def RecreateTargetOntologyWithClassLabels(ontologyTriples: RDD[graph.Triple]): RDD[(String, String, String)] = {
+    var classLabels: RDD[graph.Triple] = ontologyTriples.filter(x=>x.getPredicate.getLocalName == "label")
+    //    println("classes with labels "+classLabels.count())
+    //    classLabels.foreach(println(_))
+
+    var ontologyWithSubjectClass: RDD[(Node, Node, Node)] = ontologyTriples.keyBy(_.getSubject).join(classLabels.keyBy(_.getSubject)).map(x=>(x._2._2.getObject,x._2._1.getPredicate,x._2._1.getObject)).filter(x=>x._2.getLocalName != "label")
+    //    println("After join")
+    //    ontologyWithSubjectClass.foreach(println(_))
+
+    var ontologyWithSubjectAndObjectClass: RDD[(String, String, String)] = ontologyWithSubjectClass.keyBy(_._3).join(classLabels.keyBy(_.getSubject)).map(x=>(this.stringPreProcessing2(x._2._1._1.toString).toLowerCase,x._2._1._2.getLocalName,this.stringPreProcessing2(x._2._2.getObject.toString).toLowerCase))
+    //var ontologyWithSubjectAndObjectClass: RDD[(String, String, String)] = ontologyWithSubjectClass.keyBy(_._3).join(classLabels.keyBy(_.getSubject)).map(x=>(x._2._1._1.toString,x._2._1._2.getLocalName,x._2._2.getObject.toString))
+    //.map(x=>(x._2._2.getObject,x._2._1._2,x._2._1._3))//.filter(x=>x._2.getLocalName() != "label")
+    //    println("After join")
+    //    ontologyWithSubjectAndObjectClass.take(5).foreach(println(_))
+
     ontologyWithSubjectAndObjectClass
 
   }
@@ -100,12 +119,15 @@ class PreProcessing extends Serializable{
   def getStringWithoutTags(str: Array[String]): String = {
     str.map(x=>x.split("_").head).mkString(" ")
   }
+
   def posTag(sourceClassesWithoutURIs: Array[String]): Array[String]={
     var sourceC: Array[String] = sourceClassesWithoutURIs.filter(x => x.split(" ").length == 1)
     var sourceC2 = sourceClassesWithoutURIs diff sourceC
 //    println("####################### Subtraction results #######################")
 //    sourceC2.foreach(println(_))
+
     var tagger = new MaxentTagger("/home/shimaa/CL_Enrichment/resources/taggers/german-fast.tagger")
+
     var tags: Array[String] = sourceC2.map(x=>(tagger.tagString(x).split(" ")).filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE")).mkString(" "))
     var removeTags: Array[String] = tags.map(x=>this.getStringWithoutTags(x.split(" ")))
 //    println("All Tags")
@@ -121,6 +143,15 @@ class PreProcessing extends Serializable{
 //    var ss: String = s.map(x=>x.split("_").head).mkString(" ")
 //    println(ss)
     preprocessedSourceClasses
+
+  }
+  def posTagForString(classLabel: String): String={
+    var tokens = classLabel.split(" ")
+    var tagger = new MaxentTagger("/home/shimaa/CL_Enrichment/resources/taggers/german-fast.tagger")
+    var strWithTags = tagger.tagTokenizedString(classLabel).split(" ").filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE"))//.mkString(" ")
+    var strWithoutTags = strWithTags.map(x=>x.split("_").head+" ").mkString
+    strWithoutTags
+//    strWithTags
 
   }
 }

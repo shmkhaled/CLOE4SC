@@ -59,7 +59,7 @@ def Translate (preprocessedSourceClasses: RDD[String]): RDD[(String, List[String
     var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.MeanSimilarity(x._1,x._2))).filter(y=>y._3>=0.6)
     //      println("###########################All similarity scores #######################")
 //    println ("###################### matching scores ##############################")
-    sim.foreach(println(_))
+//    sim.foreach(println(_))
     var matchedTerms: RDD[String] = sim.map(x=>x._2)
     if (!matchedTerms.isEmpty()){
       bestTranslation = matchedTerms.collect().toList

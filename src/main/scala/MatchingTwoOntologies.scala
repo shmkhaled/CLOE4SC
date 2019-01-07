@@ -3,13 +3,15 @@ import org.apache.spark.rdd.RDD
 * Created by Shimaa 7.11.2018
 * */
 class MatchingTwoOntologies {
-  def Match(sourceSubOntology: RDD[(String, String, String)], targetOntology: RDD[(String, String, String)]): RDD[(String, String, String)] ={
+  def Match(sourceSubOntology: RDD[(String, String, String)], targetOntology: RDD[(String, String, String)], targetClassesWithoutURIs: RDD[String]): RDD[(String, String, String)] ={
     var sourceOntology: RDD[(String, String, String)] = sourceSubOntology
       var matchOntology: RDD[(String, String, String)] = sourceSubOntology.intersection(targetOntology)
 //      matchOntology.foreach(println(_))
 //    println("|        The source ontologyTriples after removing the common triples       |")
     sourceOntology = sourceSubOntology.subtract(matchOntology).filter(x=>x._2 != "description")//remove full matched triples from the source ontologyTriples and triples with descriptions
 //    sourceOntology.foreach(println(_))
+//    var enrichedTriples = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> if (!a.isEmpty() && b._1.isLiteral()) (s,p,o,'E') else if (a.isEmpty() && !b._1.isLiteral()) (s,p,o,'A')})
+//    enrichedTriples
     sourceOntology
   }
 //  def matching2(sourceSubOntology: RDD[graph.Triple], targetOntology: RDD[graph.Triple]): Unit ={

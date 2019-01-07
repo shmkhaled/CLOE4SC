@@ -11,13 +11,9 @@ def Translate (preprocessedSourceClasses: RDD[String]): RDD[(String, List[String
   val sp = SparkSession.builder.master("local[*]")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
-
-  val src = Source.fromFile("/home/shimaa/CLOE4SC/src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv")
-//  val src = Source.fromFile("/home/shimaa/CLOE4SC/src/main/resources/EvaluationDataset/Translations/Translations-confOf-de.csv")
-//val src = Source.fromFile("/home/shimaa/CLOE4SC/src/main/resources/EvaluationDataset/Translations/Translations-sigkdd-de.csv")
-
-
-  //  val relevantTranslations: RDD[List[String]] = sc.parallelize(src.getLines().toList.map(_.split(",").toList))
+  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv")
+//  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-confOf-de.csv")
+//  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-sigkdd-de.csv")
   val relevantTranslations: RDD[(String, List[String])] = sp.sparkContext.parallelize(src.getLines().toList.map(_.split(",").toList).map(x=>(x.head, x.tail)))
 //  relevantTranslations.foreach(println(_))
 //  println("Translation")
@@ -30,36 +26,12 @@ def Translate (preprocessedSourceClasses: RDD[String]): RDD[(String, List[String
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .getOrCreate()
     var bestTranslation = List(" ")
-//    if (listOftranslations.length == 1)
-//      bestTranslation = listOftranslations
-//    else {
-//      val gS = new GetSimilarity()
-//      //    var sim = gS.MeanSimilarity("book chapter", "chapter")
-//      //    println("Mean similarity is "+ sim)
-//      var t: RDD[String] = sp.sparkContext.parallelize(targetClasses.value.map(_._1).toList).cache()
-//      var translations = sp.sparkContext.parallelize(listOftranslations)
-//      var crossRDD: RDD[(String, String)] = translations.cartesian(t)
-//      var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.MeanSimilarity(x._1,x._2))).filter(y=>y._3>0.6)
-////      println("###########################All similarity scores #######################")
-//      println ("###################### matching scores ##############################")
-//      sim.foreach(println(_))
-//      var matchedTerms: RDD[String] = sim.map(x=>x._2)
-//      if (!matchedTerms.isEmpty()){
-//        bestTranslation = matchedTerms.collect().toList
-//      }
-//      else bestTranslation = listOftranslations
-//    }
-
     val gS = new GetSimilarity()
-    //    var sim = gS.MeanSimilarity("book chapter", "chapter")
-    //    println("Mean similarity is "+ sim)
     var t: RDD[String] = sp.sparkContext.parallelize(targetClasses.value.map(_._1).toList).cache()
     var translations = sp.sparkContext.parallelize(listOftranslations)
     var crossRDD: RDD[(String, String)] = translations.cartesian(t)
-    var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.MeanSimilarity(x._1,x._2))).filter(y=>y._3>=0.6)
-    //      println("###########################All similarity scores #######################")
-//    println ("###################### matching scores ##############################")
-//    sim.foreach(println(_))
+    var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.getSimilarity(x._1,x._2))).filter(y=>y._3>=0.3)
+    sim.foreach(println(_))
     var matchedTerms: RDD[String] = sim.map(x=>x._2)
     if (!matchedTerms.isEmpty()){
       bestTranslation = matchedTerms.collect().toList
@@ -68,5 +40,4 @@ def Translate (preprocessedSourceClasses: RDD[String]): RDD[(String, List[String
 
     bestTranslation
   }
-
 }

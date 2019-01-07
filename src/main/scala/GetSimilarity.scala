@@ -4,7 +4,7 @@ import info.debatty.java.stringsimilarity.{Cosine, Jaccard, NormalizedLevenshtei
 * */
 
 class GetSimilarity extends Serializable{
-//  def getSimilarity(translatedClasses: RDD[(String, List[String])], targetClasses: RDD[String]): Unit ={
+//  def getExactSimilarity(translatedClasses: RDD[(String, List[String])], targetClasses: RDD[String]): Unit ={
 //    var sim: RDD[String] = translatedClasses.flatMap(s => s._2)
 //    println("Source classes before join")
 //    sim.foreach(println(_))
@@ -13,7 +13,7 @@ class GetSimilarity extends Serializable{
 //    j.foreach(println(_))
 //
 //  }
-  def MeanSimilarity(s1: String, s2: String): Double={
+  def getSimilarity(s1: String, s2: String): Double={
     val cos = new Cosine(2)
     var cosSim = cos.similarity(s1, s2)
 //    System.out.println("Cosine similarity is "+cosSim)
@@ -34,8 +34,6 @@ class GetSimilarity extends Serializable{
     var trigramSim = trigram.distance(s1, s2)
 //    System.out.println("trigram similarity is "+trigram.distance(s1, s2))
 
-//    var meanSim = (cosSim+jaccardSim)/2//(trigramSim + cosSim+jaccardSim)/3//(cosSim + jaccardSim+levenshteinSim+jarSim+trigramSim)/5
-//    meanSim
   jaccardSim
 
   }

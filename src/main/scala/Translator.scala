@@ -30,8 +30,8 @@ def Translate (preprocessedSourceClasses: RDD[String]): RDD[(String, List[String
     var t: RDD[String] = sp.sparkContext.parallelize(targetClasses.value.map(_._1).toList).cache()
     var translations = sp.sparkContext.parallelize(listOftranslations)
     var crossRDD: RDD[(String, String)] = translations.cartesian(t)
-    var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.getSimilarity(x._1,x._2))).filter(y=>y._3>=0.3)
-    sim.foreach(println(_))
+    var sim: RDD[(String, String, Double)] = crossRDD.map(x=>(x._1,x._2,gS.getSimilarity(x._1,x._2))).filter(y=>y._3>=0.5)
+//    sim.foreach(println(_))
     var matchedTerms: RDD[String] = sim.map(x=>x._2)
     if (!matchedTerms.isEmpty()){
       bestTranslation = matchedTerms.collect().toList

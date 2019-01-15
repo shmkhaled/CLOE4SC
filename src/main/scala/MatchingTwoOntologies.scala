@@ -4,13 +4,20 @@ import org.apache.spark.rdd.RDD
 * */
 class MatchingTwoOntologies {
   def Match(sourceSubOntology: RDD[(String, String, String)], targetOntology: RDD[(String, String, String)], targetClassesWithoutURIs: RDD[String]): RDD[(String, String, String)] ={
-    var sourceOntology: RDD[(String, String, String)] = sourceSubOntology
-      var matchOntology: RDD[(String, String, String)] = sourceSubOntology.intersection(targetOntology)
+//    var sourceOntology: RDD[(String, String, String)] = sourceSubOntology
+    var matchOntology: RDD[(String, String, String)] = sourceSubOntology.intersection(targetOntology)
 //      matchOntology.foreach(println(_))
 //    println("|        The source ontologyTriples after removing the common triples       |")
-    sourceOntology = sourceSubOntology.subtract(matchOntology).filter(x=>x._2 != "description")//remove full matched triples from the source ontologyTriples and triples with descriptions
+    var sourceOntology = sourceSubOntology.subtract(matchOntology).filter(x=>x._2 != "description")//remove full matched triples from the source ontologyTriples and triples with descriptions
 //    sourceOntology.foreach(println(_))
-//    var enrichedTriples = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> if (!a.isEmpty() && b._1.isLiteral()) (s,p,o,'E') else if (a.isEmpty() && !b._1.isLiteral()) (s,p,o,'A')})
+    /*
+    * val tripleAction = triplesForEnnrichment.keyBy( . 1).join(TOc).map(fcase
+(a; ((s; p; o); b))) if !a.IsEmpty() then
+4 (s; p; o,’E’)
+5 else if a.IsEmpty() and !o:IsLiteral() then
+6 (s; p; o,’A’)*/
+//    var enrichedTriples: RDD[Any] = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> if(!a.isEmpty()) (s,p,o,'E') else if (a.isEmpty()) (s,p,o,'A')})
+//(!a.isEmpty() && b._1.isLiteral()) (s,p,o,'E') else if (a.isEmpty() && !b._1.isLiteral()) (s,p,o,'A')})
 //    enrichedTriples
     sourceOntology
   }

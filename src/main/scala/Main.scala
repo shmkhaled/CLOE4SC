@@ -19,10 +19,10 @@ object Main {
     val inputSource = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated.nt"
     //var inputSource = "src/main/resources/EvaluationDataset/German/confOf-de-classes_updated.nt"
     //var inputSource = "src/main/resources/EvaluationDataset/German/sigkdd-de-classes_updated.nt"
-    var inputTarget = "src/main/resources/EvaluationDataset/English/cmt-en-classes_updated.nt"
+//    var inputTarget = "src/main/resources/EvaluationDataset/English/cmt-en-classes_updated.nt"
     //var inputTarget = "src/main/resources/EvaluationDataset/English/ekaw-en-classes_updated.nt"
     //var inputTarget = "src/main/resources/EvaluationDataset/English/edas-en-classes_updated.nt"
-//    val inputTarget = "src/main/resources/CaseStudy/SEO_classes.nt"
+    val inputTarget = "src/main/resources/CaseStudy/SEO_classes.nt"
     val pre = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt"
 
     Logger.getLogger("org").setLevel(Level.OFF)
@@ -87,8 +87,8 @@ object Main {
 //    targetClasses.foreach(println(_))
 
     //####################### Translation #####################################
-//      var targetClassesWithoutURIs: RDD[String] = targetOntology.map(y=>p.stringPreProcessing(y.getSubject.getLocalName)).distinct()//for ekaw-en and edas ontologies
-    var targetClassesWithoutURIs: RDD[String] = targetOntology.filter(x=>x.getPredicate.getLocalName == "label").map(y=>y.getObject.getLiteral.getLexicalForm.split("@").head)//for cmt-en, confOf-de and sigkdd-de ontologies
+      var targetClassesWithoutURIs: RDD[String] = targetOntology.map(y=>p.stringPreProcessing(y.getSubject.getLocalName)).distinct()//for ekaw-en, edas and SEO ontologies
+//    var targetClassesWithoutURIs: RDD[String] = targetOntology.filter(x=>x.getPredicate.getLocalName == "label").map(y=>y.getObject.getLiteral.getLexicalForm.split("@").head)//for cmt-en, confOf-de and sigkdd-de ontologies
     println("All classes in the target ontology Triples:" + targetClassesWithoutURIs.count())
     targetClassesWithoutURIs.foreach(println(_))
       var sourceClassesWithoutURIs = sourceOntology.filter(x=>x.getPredicate.getLocalName == "label").map(y=>y.getObject.getLiteral.getLexicalForm.split("@").head).distinct().collect()
@@ -109,8 +109,8 @@ object Main {
 
     var soureClassesWithListOfBestTranslations: RDD[(String, List[String], List[String])] = sourceClassesWithAllAvailableTranslations.map(x => (x._1,x._2,trans.GetBestTranslation(x._2))).cache()//.filter(y=>y._3.length == 1)
 
-//    println("All sources with list of translations ")
-//    soureClassesWithListOfBestTranslations.take(70).foreach(println(_)) //then save to file
+    println("All sources with list of best translations ")
+    soureClassesWithListOfBestTranslations.take(70).foreach(println(_)) //then save to file
 //    soureClassesWithListOfBestTranslations.saveAsTextFile("src/main/resources/EvaluationDataset/German/firstOutput.txt")
 
     println("####################### Recreating the source ontologyTriples #####################################")
@@ -119,22 +119,17 @@ object Main {
     println("All sources classes with best translation ")
     s.take(70).foreach(println(_))
 //    s.saveAsTextFile("src/main/resources/EvaluationDataset/German/firstOutput.txt")
+//    s.saveAsTextFile("src/main/resources/EvaluationDataset/German/ConferenceTranslations_W_R_T_SEO.txt")
+
     /*Experts should validate the translations in the output files*/
-//    val validTranslationsByExperts = "src/main/resources/EvaluationDataset/Translation/Translations-conference-de_Translations_W.R.T.cmt.en.csv"
-//    val lang2: Lang = Lang.CSV
-//    val validTranslations = sparkSession1.rdf(lang2)(validTranslationsByExperts)
-    println("Sources from the file ")
-//    validTranslations.take(5).foreach(println(_))
-    val translatedSourceClasses: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_Translations_W.R.T.cmt.en.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
-//    translatedSourceClasses.take(5).foreach(println(_))
+//    val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_Translations_W.R.T.cmt.en.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
+val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-ConferenceTranslations_W_R_T_SEO.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
+//    validSourceTranslationsByExperts.take(5).foreach(println(_))
+    println("Validated translated source classes W.R.T SEO: ")
+    validSourceTranslationsByExperts.take(70).foreach(println(_))
 
-
-//    var translatedSourceClasses: RDD[(String, String)] = soureClassesWithListOfBestTranslations.map(x=>(x._1.toLowerCase,x._3.head)).cache()
-//    println("Translated source classes: ")
-    translatedSourceClasses.take(70).foreach(println(_))
-//    translatedSourceClasses.saveAsTextFile("src/main/resources/EvaluationDataset/German/firstOutput.txt")
     val sor = new SourceOntologyReconstruction()
-    var translatedSourceOntology = sor.ReconstructOntology(preProcessedSourceOntology,translatedSourceClasses).cache()
+    var translatedSourceOntology = sor.ReconstructOntology(preProcessedSourceOntology,validSourceTranslationsByExperts).cache()
     //println("Source Ontology after translating subject and object classes")
     //translatedSourceOntology.foreach(println(_))
 

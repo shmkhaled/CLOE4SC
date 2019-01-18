@@ -6,11 +6,10 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/EvaluationDataset/German/conference-de-reconstructedOntology.nt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/EvaluationDataset/English/edas-en-classes_updated.nt" afterPath="$PROJECT_DIR$/src/main/resources/EvaluationDataset/English/edas-en-classes_updated.nt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/GetSimilarity.scala" afterPath="$PROJECT_DIR$/src/main/scala/GetSimilarity.scala" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv" afterPath="$PROJECT_DIR$/src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Main.scala" afterPath="$PROJECT_DIR$/src/main/scala/Main.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala" afterPath="$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala" afterPath="$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/Translator.scala" afterPath="$PROJECT_DIR$/src/main/scala/Translator.scala" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,8 +25,8 @@
       <file leaf-file-name="Main.scala" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="141" column="36" lean-forward="true" selection-start-line="141" selection-start-column="36" selection-end-line="141" selection-end-column="36" />
+            <state relative-caret-position="310">
+              <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
                 <element signature="e#1#38#0" expanded="true" />
               </folding>
@@ -35,11 +34,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conference-de-classes_updated_preprocessed.nt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt">
+      <file leaf-file-name="PreProcessing.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/PreProcessing.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="172" column="107" lean-forward="false" selection-start-line="172" selection-start-column="87" selection-end-line="172" selection-end-column="107" />
+            <state relative-caret-position="66">
+              <caret line="11" column="27" lean-forward="true" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SourceOntologyReconstruction.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="9" column="70" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -48,8 +57,8 @@
       <file leaf-file-name="MatchingTwoOntologies.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="214" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="214" />
+            <state relative-caret-position="378">
+              <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
               <folding />
             </state>
           </provider>
@@ -58,8 +67,8 @@
       <file leaf-file-name="Translator.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/scala/Translator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="29" column="98" lean-forward="true" selection-start-line="29" selection-start-column="98" selection-end-line="29" selection-end-column="98" />
+            <state relative-caret-position="450">
+              <caret line="29" column="98" lean-forward="false" selection-start-line="29" selection-start-column="98" selection-end-line="29" selection-end-column="98" />
               <folding />
             </state>
           </provider>
@@ -69,19 +78,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>in-use</find>
-      <find>scala.version</find>
-      <find>2.3.1</find>
-      <find>preSOntology</find>
-      <find>PreProcessing</find>
-      <find>preProcessedTargetOntology</find>
-      <find>preprocessedSourceClasses</find>
-      <find>soureClassesWithListOfTranslations</find>
-      <find>sourceOntologyWithoutURI</find>
-      <find>targetOntologyWithoutURI</find>
-      <find>triplesToBeAddedToTarget</find>
-      <find>getSim</find>
-      <find>ManualTranslation</find>
       <find>MatchingTwoOntologies</find>
       <find>RetrieveURIs</find>
       <find>All source with list of best translations</find>
@@ -97,8 +93,21 @@
       <find>getJaccardStringSimilarity</find>
       <find>source triples needed for enrichment</find>
       <find>keynote speaker</find>
-      <find>tutorial proposals</find>
       <find>http://conference_de#c-9365621-4628022</find>
+      <find>Source Ontology after translating subject and object classes</find>
+      <find>Test</find>
+      <find>tutorium</find>
+      <find>The lenght of the source Ontology before translation is</find>
+      <find>Tutorium</find>
+      <find>informationen teilnehmer</find>
+      <find>http://conference_de#c-2807153-3693543</find>
+      <find>leiter workshops</find>
+      <find>none</find>
+      <find>tutorial proposals</find>
+      <find>Ablauf der Konferenz</find>
+      <find>Match</find>
+      <find>Source Ontology after translating the subject class</find>
+      <find>conference contributor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -131,10 +140,10 @@
         <option value="$PROJECT_DIR$/src/main/scala/PreProcessing.scala" />
         <option value="$PROJECT_DIR$/src/main/resources/EvaluationDataset/English/edas-en-classes_updated.nt" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Translator.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/GetSimilarity.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala" />
         <option value="$PROJECT_DIR$/src/main/scala/Main.scala" />
       </list>
     </option>
@@ -174,9 +183,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -244,7 +254,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -409,7 +418,10 @@
       <workItem from="1547032702872" duration="294000" />
       <workItem from="1547460434731" duration="11496000" />
       <workItem from="1547547864577" duration="3169000" />
-      <workItem from="1547551472328" duration="8753000" />
+      <workItem from="1547551472328" duration="9404000" />
+      <workItem from="1547636477482" duration="1310000" />
+      <workItem from="1547736389296" duration="109000" />
+      <workItem from="1547818475497" duration="9097000" />
     </task>
     <task id="LOCAL-00001" summary="excluding resources because of size">
       <created>1544099698304</created>
@@ -467,15 +479,21 @@
       <option name="project" value="LOCAL" />
       <updated>1547551572226</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="cleaning">
+      <created>1547568603627</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1547568603627</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90444000" />
+    <option name="totallyTimeSpent" value="101611000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1673" y="69" width="1857" height="1212" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7566462" sideWeight="0.5018868" order="7" side_tool="true" content_ui="tabs" />
@@ -489,18 +507,17 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287796" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.49544626" sideWeight="0.49811321" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.49544626" sideWeight="0.49811321" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287796" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -508,6 +525,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287796" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -557,7 +575,8 @@
     <MESSAGE value="update ReadMe file" />
     <MESSAGE value="validation by experts" />
     <MESSAGE value="code cleaning" />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleaning" />
+    <MESSAGE value="cleaning" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -851,7 +870,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
           <caret line="87" column="38" lean-forward="false" selection-start-line="87" selection-start-column="21" selection-end-line="87" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -859,15 +877,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1980">
           <caret line="110" column="59" lean-forward="false" selection-start-line="110" selection-start-column="59" selection-end-line="110" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/PreProcessing.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="54" column="122" lean-forward="false" selection-start-line="54" selection-start-column="122" selection-end-line="54" selection-end-column="122" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -887,42 +896,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="39" column="60" lean-forward="true" selection-start-line="38" selection-start-column="3" selection-end-line="39" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Translator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="29" column="98" lean-forward="true" selection-start-line="29" selection-start-column="98" selection-end-line="29" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="214" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="214" />
+        <state relative-caret-position="450">
+          <caret line="29" column="98" lean-forward="false" selection-start-line="29" selection-start-column="98" selection-end-line="29" selection-end-column="98" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="172" column="107" lean-forward="false" selection-start-line="172" selection-start-column="87" selection-end-line="172" selection-end-column="107" />
+        <state relative-caret-position="164">
+          <caret line="53" column="130" lean-forward="false" selection-start-line="53" selection-start-column="92" selection-end-line="53" selection-end-column="130" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/MatchingTwoOntologies.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="96" lean-forward="false" selection-start-line="21" selection-start-column="96" selection-end-line="21" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/SourceOntologyReconstruction.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="70" lean-forward="true" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/PreProcessing.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="11" column="27" lean-forward="true" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/scala/Main.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="141" column="36" lean-forward="true" selection-start-line="141" selection-start-column="36" selection-end-line="141" selection-end-column="36" />
+        <state relative-caret-position="310">
+          <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
             <element signature="e#1#38#0" expanded="true" />
           </folding>

@@ -19,7 +19,9 @@ class MatchingTwoOntologies {
 //    var enrichedTriples: RDD[Any] = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> if(!a.isEmpty()) (s,p,o,'E') else if (a.isEmpty()) (s,p,o,'A')})
 //(!a.isEmpty() && b._1.isLiteral()) (s,p,o,'E') else if (a.isEmpty() && !b._1.isLiteral()) (s,p,o,'A')})
 //    enrichedTriples
-    sourceOntology
+    var E = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> (s,p,o)})
+    //.map({case(a,((s,p,o),b))=> if(!a.isEmpty()) (s,p,o,'E') else if (a.isEmpty()) (s,p,o,'A')})
+    E
   }
 //  def matching2(sourceSubOntology: RDD[graph.Triple], targetOntology: RDD[graph.Triple]): Unit ={
 ////    val sourceSize :Int = sourceSubOntology.count().toInt

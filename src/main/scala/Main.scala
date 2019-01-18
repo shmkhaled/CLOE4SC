@@ -48,7 +48,7 @@ object Main {
     val p = new PreProcessing()
     val preProcessedSourceOntology: RDD[(String, String, String)] = p.RecreateTargetOntologyWithClassLabels(preSOntology).cache()
     println("############################## Mapped Source Ontology ##############################"+ preProcessedSourceOntology.count())
-    preProcessedSourceOntology.take(5).foreach(println(_))
+    preProcessedSourceOntology.foreach(println(_))
 
     var preProcessedTargetOntology: RDD[(String, String, String)] = p.RecreateTargetOntologyWithClassLabels(targetOntology).cache() // should applied if the classes with codes and labels
     //println("############################## Mapped Target Ontology ##############################" + preProcessedTargetOntology.count())
@@ -129,8 +129,8 @@ val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.spar
 
     println("####################### Recreating the source ontologyTriples #####################################")
     val sor = new SourceOntologyReconstruction()
-    var translatedSourceOntology = sor.ReconstructOntology(preProcessedSourceOntology,validSourceTranslationsByExperts).cache()
-    println("Source Ontology after translating subject and object classes")
+    var translatedSourceOntology = sor.ReconstructOntology(preProcessedSourceOntology,validSourceTranslationsByExperts).filter(x=>x._2 != "disjointWith").cache()
+    println("Source Ontology after translating subject and object classes "+ translatedSourceOntology.count())
     translatedSourceOntology.foreach(println(_))
 
     //############# ExactMatching #################
@@ -142,9 +142,8 @@ val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.spar
     var enrichedTriples = m.Match(translatedSourceOntology,targetOntologyWithoutURI, targetClassesWithoutURIs).cache()
     println("####################### source triples needed for enrichment #######################")
     enrichedTriples.foreach(println(_))
-    var E: RDD[(String, ((String, String, String), (String, Long)))] = enrichedTriples.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1))
-      //.map({case(a,((s,p,o),b))=> if(!a.isEmpty()) (s,p,o,'E') else if (a.isEmpty()) (s,p,o,'A')})
-    E.take(5).foreach(println(_))
+
+    //E.foreach(println(_))
 
     /*
 

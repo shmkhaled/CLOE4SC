@@ -43,14 +43,13 @@ object Main {
     println("################### Statistics of the Target Ontology ###########################")
     ontStat.GetStatistics(targetOntology)
 
-    //############# PreProcessing #################
     println("########################## PreProcessing ##############################")
     val p = new PreProcessing()
-    val preProcessedSourceOntology: RDD[(String, String, String)] = p.RecreateTargetOntologyWithClassLabels(preSOntology).cache()
-    println("############################## Mapped Source Ontology ##############################"+ preProcessedSourceOntology.count())
-    preProcessedSourceOntology.foreach(println(_))
+    val preProcessedSourceOntology: RDD[(String, String, String)] = p.RecreateOntologyWithClassLabels(preSOntology).cache()
+//    println("############################## Mapped Source Ontology ##############################"+ preProcessedSourceOntology.count())
+//    preProcessedSourceOntology.foreach(println(_))
 
-    var preProcessedTargetOntology: RDD[(String, String, String)] = p.RecreateTargetOntologyWithClassLabels(targetOntology).cache() // should applied if the classes with codes and labels
+    var preProcessedTargetOntology: RDD[(String, String, String)] = p.RecreateOntologyWithClassLabels(targetOntology).cache() // should applied if the classes with codes and labels
     //println("############################## Mapped Target Ontology ##############################" + preProcessedTargetOntology.count())
     //preProcessedTargetOntology.take(5).foreach(println(_))
 
@@ -89,16 +88,16 @@ object Main {
     //####################### Translation #####################################
       var targetClassesWithoutURIs: RDD[String] = targetOntology.map(y=>p.stringPreProcessing(y.getSubject.getLocalName)).distinct()//for ekaw-en, edas and SEO ontologies
 //    var targetClassesWithoutURIs: RDD[String] = targetOntology.filter(x=>x.getPredicate.getLocalName == "label").map(y=>y.getObject.getLiteral.getLexicalForm.split("@").head)//for cmt-en, confOf-de and sigkdd-de ontologies
-    println("All classes in the target ontology Triples:" + targetClassesWithoutURIs.count())
-    targetClassesWithoutURIs.foreach(println(_))
+//    println("All classes in the target ontology Triples:" + targetClassesWithoutURIs.count())
+//    targetClassesWithoutURIs.foreach(println(_))
       var sourceClassesWithoutURIs = sourceOntology.filter(x=>x.getPredicate.getLocalName == "label").map(y=>y.getObject.getLiteral.getLexicalForm.split("@").head).distinct().collect()
-      println("All classes in the source ontology Triples:" + sourceClassesWithoutURIs.size)
-      sourceClassesWithoutURIs.foreach(println(_))
+//      println("All classes in the source ontology Triples:" + sourceClassesWithoutURIs.size)
+//      sourceClassesWithoutURIs.foreach(println(_))
 //    var sourceClassesWithoutURIs: Array[String] = subOntology.map(x=>x._1).union(subOntology.map(y=>y._3)).distinct().collect()
-    var preprocessedSourceClasses: RDD[String] = sparkSession1.sparkContext.parallelize(p.posTag(sourceClassesWithoutURIs)).filter(x=>x.isEmpty == false)
+    var preprocessedSourceClasses: RDD[String] = sparkSession1.sparkContext.parallelize(p.posTag(sourceClassesWithoutURIs)).filter(x=>x.isEmpty == false).cache()
 //    var preprocessedSourceClassesWithOneWord: RDD[String] = preprocessedSourceClasses.filter(x=>x.split(" ").length == 1).distinct()
-      println("All source classes after preprocessing "+preprocessedSourceClasses.count())
-      preprocessedSourceClasses.foreach(println(_))
+//      println("All source classes after preprocessing "+preprocessedSourceClasses.count())
+//      preprocessedSourceClasses.foreach(println(_))
 
     var t = targetClassesWithoutURIs.zipWithIndex().collect().toMap
     var dc: Broadcast[Map[String, Long]] = sparkSession1.sparkContext.broadcast(t)
@@ -109,62 +108,54 @@ object Main {
 
     var soureClassesWithListOfBestTranslations: RDD[(String, List[String], List[String])] = sourceClassesWithAllAvailableTranslations.map(x => (x._1,x._2,trans.GetBestTranslation(x._2))).cache()//.filter(y=>y._3.length == 1)
 
-    println("All sources with list of best translations ")
-    soureClassesWithListOfBestTranslations.take(70).foreach(println(_))
+//    println("All sources with list of best translations ")
+//    soureClassesWithListOfBestTranslations.take(70).foreach(println(_))
 
 
     //var sourceOntologyWithoutURI: RDD[(String, String, String)] = sourceOntology.map{case(x)=> if (x.getObject.isLiteral)(x.getSubject.getLocalName,x.getPredicate.getLocalName,x.getObject.getLiteral.toString)else (x.getSubject.getLocalName,x.getPredicate.getLocalName,x.getObject.getLocalName)}
     var soureClassesWithBestTranslation: RDD[(String, String, String)] = soureClassesWithListOfBestTranslations.map(x=> (x._1,x._2.head,x._3.head))
-    println("All sources classes with best translation ")
-    soureClassesWithBestTranslation.take(70).foreach(println(_))
+//    println("All sources classes with best translation ")
+//    soureClassesWithBestTranslation.take(70).foreach(println(_))
 //    soureClassesWithBestTranslation.saveAsTextFile("src/main/resources/EvaluationDataset/German/firstOutput.txt")
 //    soureClassesWithBestTranslation.saveAsTextFile("src/main/resources/EvaluationDataset/German/ConferenceTranslations_W_R_T_SEO.txt")
 
     /*Experts should validate the translations in the output files*/
 //    val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_Translations_W.R.T.cmt.en.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
 val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-ConferenceTranslations_W_R_T_SEO.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
-//    validSourceTranslationsByExperts.take(5).foreach(println(_))
     println("Validated translated source classes W.R.T SEO: ")
     validSourceTranslationsByExperts.take(70).foreach(println(_))
 
     println("####################### Recreating the source ontologyTriples #####################################")
     val sor = new SourceOntologyReconstruction()
     var translatedSourceOntology = sor.ReconstructOntology(preProcessedSourceOntology,validSourceTranslationsByExperts).filter(x=>x._2 != "disjointWith").cache()
-    println("Source Ontology after translating subject and object classes "+ translatedSourceOntology.count())
-    translatedSourceOntology.foreach(println(_))
+//    println("Source Ontology after translating subject and object classes "+ translatedSourceOntology.count())
+//    translatedSourceOntology.foreach(println(_))
 
     //############# ExactMatching #################
     println("####################### Matching Two Ontologies #######################")
     var targetOntologyWithoutURI: RDD[(String, String, String)] = targetOntology.map{case(x)=> if (x.getObject.isLiteral)(p.stringPreProcessing(x.getSubject.getLocalName),x.getPredicate.getLocalName,p.stringPreProcessing(x.getObject.getLiteral.toString))else (p.stringPreProcessing(x.getSubject.getLocalName),x.getPredicate.getLocalName,p.stringPreProcessing(x.getObject.getLocalName))}//.filter(x=>x._2 != "type" || x._2 != "comment")
-    println("Target ontology without URIs")
-    targetOntologyWithoutURI.foreach(println(_))
+//    println("Target ontology without URIs")
+//    targetOntologyWithoutURI.foreach(println(_))
     val m = new MatchingTwoOntologies()
-    var enrichedTriples = m.Match(translatedSourceOntology,targetOntologyWithoutURI, targetClassesWithoutURIs).cache()
+    var tripelsForEnrichment: RDD[(String, String, String, Char)] = m.Match(translatedSourceOntology,targetOntologyWithoutURI, targetClassesWithoutURIs).cache()
     println("####################### source triples needed for enrichment #######################")
-    enrichedTriples.foreach(println(_))
-
-    //E.foreach(println(_))
+    println(tripelsForEnrichment.count()+ "triples. Triples with flag 'E' are needed to enrich the target ontology. Triples with flag 'A' are new triples will be added to the target ontology.")
+    tripelsForEnrichment.foreach(println(_))
 
     /*
 
-                         //    println("All translations")
-                         //    sourceClassesWithTranslatedSynonyms.foreach(println(_))
-                             var recordedTranslations: RDD[(String, String)] = sourceClassesWithTranslatedSynonyms.subtract(sourceClassesWithTranslatedSynonyms.filter(x=>x._1 == x._2)).union(translations.map(x=>(x.getSubject.getLocalName,x.getObject.getLocalName)))
-                         //    recordedTranslations.cache()
-                         //    recordedTranslations.foreach(println(_))
-                             println("Triples with URIs to be added to the target ontologyTriples")
-                             val r = new RetrieveURIs()
-                               var triplesToBeAddedToTarget = r.getTripleURIs(sourceOntology,recordedTranslations,translatedTriples)
-                         //    var triplesToBeAddedToTarget = r.getTripleURIs(sourceOntology,sourceClassesWithTranslatedSynonyms,translatedTriples)
-                         //    r.getTripleURIs(sourceOntology,sourceClassesWithTranslatedSynonyms,translatedTriples)
+//    println("All translations")
+//    sourceClassesWithTranslatedSynonyms.foreach(println(_))
+ var recordedTranslations: RDD[(String, String)] = sourceClassesWithTranslatedSynonyms.subtract(sourceClassesWithTranslatedSynonyms.filter(x=>x._1 == x._2)).union(translations.map(x=>(x.getSubject.getLocalName,x.getObject.getLocalName)))
+//    recordedTranslations.cache()
+//    recordedTranslations.foreach(println(_))
+ println("Triples with URIs to be added to the target ontologyTriples")
+ val r = new RetrieveURIs()
+   var triplesToBeAddedToTarget = r.getTripleURIs(sourceOntology,recordedTranslations,translatedTriples)
+//    var triplesToBeAddedToTarget = r.getTripleURIs(sourceOntology,sourceClassesWithTranslatedSynonyms,translatedTriples)
+//    r.getTripleURIs(sourceOntology,sourceClassesWithTranslatedSynonyms,translatedTriples)
 
-                             triplesToBeAddedToTarget.foreach(println(_))
-
-                             //####################### Enriching #####################################
-                             println("####################### Enriching #####################################")
-                             val e = new Enriching()
-                             var enrichedOntology = e.enrichTargetOntology(triplesToBeAddedToTarget,targetOntology)
-                             enrichedOntology.foreach(println(_))
+ triplesToBeAddedToTarget.foreach(println(_))
 
                          */
 

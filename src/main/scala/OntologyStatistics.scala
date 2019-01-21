@@ -8,7 +8,7 @@ class OntologyStatistics {
     println("|       Ontology Statistics      |")
     println("======================================")
     ontologyTriples.take(5).foreach(println(_))
-//    println("Number of triples in the ontology = "+ontologyTriples.count())
+    println("Number of triples in the ontology = "+ontologyTriples.count())
     var subject = ontologyTriples.map(_.getSubject).distinct()
 //    println("First five subjects are:")
 //    subject.take(5).foreach(println(_))

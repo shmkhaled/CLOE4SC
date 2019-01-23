@@ -1,10 +1,10 @@
-import java.util
 
-import de.danielnaber.jwordsplitter.GermanWordSplitter
+
+//import de.danielnaber.jwordsplitter.GermanWordSplitter
+import edu.stanford.nlp.tagger.maxent.MaxentTagger
 import org.apache.jena.graph
 import org.apache.jena.graph.Node
 import org.apache.spark.rdd.RDD
-import edu.stanford.nlp.tagger.maxent.MaxentTagger
 
 
 class PreProcessing extends Serializable{
@@ -82,11 +82,11 @@ class PreProcessing extends Serializable{
       " "
     ).replaceAll(" ", " ")
   }
-  def germanWordSplitter(s: String):util.List[String]={
-    val splitter = new GermanWordSplitter(true)
-    val parts: util.List[String] = splitter.splitWord(s)
-    parts
-  }
+//  def germanWordSplitter(s: String):util.List[String]={
+//    val splitter = new GermanWordSplitter(true)
+//    val parts: util.List[String] = splitter.splitWord(s)
+//    parts
+//  }
   def ToCamel(s: String): String = {
     val split = s.split(" ")
     val tail = split.tail.map { x => x.head.toUpper + x.tail }
@@ -133,11 +133,6 @@ class PreProcessing extends Serializable{
     var preprocessedSourceClasses: Array[String] = sourceC.union(removeTags)
 //    println("All source classes after preprocessing")
 //    preprocessedSourceClasses.foreach(println(_))
-//    var s: Unit = this.getStringWithoutTags(Array("erweitertes_ADJA","zusammenfassung_NN"))
-//    var s = "erweitertes_ADJA"
-//    var s = Array("erweitertes_ADJA","zusammenfassung_NN")
-//    var ss: String = s.map(x=>x.split("_").head).mkString(" ")
-//    println(ss)
     preprocessedSourceClasses
 
   }

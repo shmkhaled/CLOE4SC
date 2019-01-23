@@ -2,3 +2,14 @@
 CLOE4SC (Cross-lingual Ontology Enrichment for Scholarly Communication) is used for enriching an ontology, the target ontology TO, using another one, the source ontology SO, in a different natural language.
 
 All implementations are based on Scala 2.11.11 and Apache Spark 2.3.1. 
+
+How to use
+----------
+````
+git clone https://github.com/shmkhaled/CLOE4SC.git
+cd CLOE4SC
+
+mvn clean package
+````
+
+The subsequent steps depend on your IDE. Generally, just import this repository as a Maven project and start using CLOE4SC.

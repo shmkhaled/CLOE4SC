@@ -2,6 +2,9 @@
   <library name="Maven: org.apache.derby:derby:10.12.1.1">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/resources/java-string-similarity-1.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/resources/jwordsplitter-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/resources/stanford-postagger.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1-javadoc.jar!/" />

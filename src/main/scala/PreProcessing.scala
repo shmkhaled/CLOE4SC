@@ -122,7 +122,7 @@ class PreProcessing extends Serializable{
 //    println("####################### Subtraction results #######################")
 //    sourceC2.foreach(println(_))
 
-    var tagger = new MaxentTagger("/home/shimaa/CL_Enrichment/resources/taggers/german-fast.tagger")
+    var tagger = new MaxentTagger("src/main/resources/german-fast.tagger")
 
     var tags: Array[String] = sourceC2.map(x=>(tagger.tagString(x).split(" ")).filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE")).mkString(" "))
     var removeTags: Array[String] = tags.map(x=>this.getStringWithoutTags(x.split(" ")))

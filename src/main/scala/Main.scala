@@ -139,7 +139,7 @@ val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.spar
     val m = new MatchingTwoOntologies()
     var tripelsForEnrichment: RDD[(String, String, String, Char)] = m.Match(translatedSourceOntology,targetOntologyWithoutURI, targetClassesWithoutURIs).cache()
     println("####################### source triples needed for enrichment #######################")
-    println(tripelsForEnrichment.count()+ "triples. Triples with flag 'E' are needed to enrich the target ontology. Triples with flag 'A' are new triples will be added to the target ontology.")
+    println(tripelsForEnrichment.count()+ " triples. Triples with flag 'E' are needed to enrich the target ontology. Triples with flag 'A' are new triples will be added to the target ontology.")
     tripelsForEnrichment.foreach(println(_))
 
     /*

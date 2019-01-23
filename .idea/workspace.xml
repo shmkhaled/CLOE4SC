@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5829526-2a83-4e85-b6fb-21f3e1536636" name="Default" comment="enhance enrichment">
+    <list default="true" id="d5829526-2a83-4e85-b6fb-21f3e1536636" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/scala/PreProcessing.scala" afterPath="$PROJECT_DIR$/src/main/scala/PreProcessing.scala" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -67,8 +66,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="216">
-                <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+              <first_editor relative-caret-position="360">
+                <caret line="13" column="218" lean-forward="false" selection-start-line="13" selection-start-column="218" selection-end-line="13" selection-end-column="218" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -396,7 +395,7 @@
       <workItem from="1548064507804" duration="6767000" />
       <workItem from="1548165323349" duration="750000" />
       <workItem from="1548261329239" duration="2733000" />
-      <workItem from="1548275949206" duration="1717000" />
+      <workItem from="1548275949206" duration="1874000" />
     </task>
     <task id="LOCAL-00001" summary="excluding resources because of size">
       <created>1544099698304</created>
@@ -468,11 +467,18 @@
       <option name="project" value="LOCAL" />
       <updated>1547827648064</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="update readMe file">
+      <created>1548277708006</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1548277708006</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113661000" />
+    <option name="totallyTimeSpent" value="113818000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1673" y="69" width="1857" height="1212" extended-state="6" />
@@ -560,7 +566,8 @@
     <MESSAGE value="code cleaning" />
     <MESSAGE value="cleaning" />
     <MESSAGE value="enhance enrichment" />
-    <option name="LAST_COMMIT_MESSAGE" value="enhance enrichment" />
+    <MESSAGE value="update readMe file" />
+    <option name="LAST_COMMIT_MESSAGE" value="update readMe file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -894,8 +901,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="216">
-            <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+          <first_editor relative-caret-position="360">
+            <caret line="13" column="218" lean-forward="false" selection-start-line="13" selection-start-column="218" selection-end-line="13" selection-end-column="218" />
             <folding />
           </first_editor>
           <second_editor />

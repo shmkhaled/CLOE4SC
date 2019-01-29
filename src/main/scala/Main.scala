@@ -3,6 +3,7 @@ import net.sansa_stack.rdf.spark.io._
 import org.apache.jena.graph
 import org.apache.jena.riot.Lang
 import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkConf
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
@@ -25,6 +26,7 @@ object Main {
     val inputTarget = "src/main/resources/CaseStudy/SEO_classes.nt"
     val pre = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt"
 
+    val sparkConf = new SparkConf().setMaster("spark://172.18.160.16:3077")
     Logger.getLogger("org").setLevel(Level.OFF)
     Logger.getLogger("akka").setLevel(Level.OFF)
     val sparkSession1 = SparkSession.builder

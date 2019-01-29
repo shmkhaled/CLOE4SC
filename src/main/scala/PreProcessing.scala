@@ -138,7 +138,7 @@ class PreProcessing extends Serializable{
   }
   def posTagForString(classLabel: String): String={
     var tokens = classLabel.split(" ")
-    var tagger = new MaxentTagger("/home/shimaa/CL_Enrichment/resources/taggers/german-fast.tagger")
+    var tagger = new MaxentTagger("src/main/resources/taggers/german-fast.tagger")
     var strWithTags = tagger.tagTokenizedString(classLabel).split(" ").filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE"))//.mkString(" ")
     var strWithoutTags = strWithTags.map(x=>x.split("_").head+" ").mkString
     strWithoutTags

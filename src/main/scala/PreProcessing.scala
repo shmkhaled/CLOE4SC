@@ -96,17 +96,6 @@ class PreProcessing extends Serializable{
   def getLastBitFromUrI(urI: String): String = {
 //    urI.replaceFirst(".*/([^/?]+).*", "$1")
     urI.replaceFirst(".*/([^/?]+)", "$0")
-//    Explanation:
-//
-//    .*/      // find anything up to the last / character
-//    ([^/?]+) // find (and capture) all following characters up to the next / or ?
-//    // the + makes sure that at least 1 character is matched
-//    .*       // find all following characters
-//
-//
-//    $1       // this variable references the saved second group from above
-//    // I.e. the entire string is replaces with just the portion
-//    // captured by the parentheses above
   }
   def getURIWithoutLastString(urI: String): String = {
     urI.substring(0,urI.lastIndexOf("/")) + "/"
@@ -116,15 +105,12 @@ class PreProcessing extends Serializable{
     str.map(x=>x.split("_").head).mkString(" ")
   }
 
-  def posTag(sourceClassesWithoutURIs: Array[String]): Array[String]={
+  def posTag(sourceClassesWithoutURIs: Array[String], germanTagger: MaxentTagger): Array[String]={
     var sourceC: Array[String] = sourceClassesWithoutURIs.filter(x => x.split(" ").length == 1)
     var sourceC2 = sourceClassesWithoutURIs diff sourceC
 //    println("####################### Subtraction results #######################")
 //    sourceC2.foreach(println(_))
-
-    var tagger = new MaxentTagger("src/main/resources/german-fast.tagger")
-
-    var tags: Array[String] = sourceC2.map(x=>(tagger.tagString(x).split(" ")).filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE")).mkString(" "))
+    var tags: Array[String] = sourceC2.map(x=>(germanTagger.tagString(x).split(" ")).filter(y=> y.contains("_ADJA") || y.contains("_NN")|| y.contains("_XY") || y.contains("_ADV")|| y.contains("_NE")).mkString(" "))
     var removeTags: Array[String] = tags.map(x=>this.getStringWithoutTags(x.split(" ")))
 //    println("All Tags")
 //    tags.foreach(println(_))

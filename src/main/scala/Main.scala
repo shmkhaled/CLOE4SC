@@ -1,12 +1,14 @@
 
+import edu.stanford.nlp.tagger.maxent.MaxentTagger
 import net.sansa_stack.rdf.spark.io._
 import org.apache.jena.graph
 import org.apache.jena.riot.Lang
 import org.apache.log4j.{Level, Logger}
-import org.apache.spark.SparkConf
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
+
+import scala.io.Source
 
 /*
 * Created by Shimaa 15.oct.2018
@@ -17,16 +19,22 @@ object Main {
   def main(args: Array[String]) {
     val startTimeMillis = System.currentTimeMillis()
     //############################# Inputs for Evaluation #######################
-    val inputSource = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated.nt"
+    //val inputSource = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated.nt"
+    val inputSource = args(0)
     //var inputSource = "src/main/resources/EvaluationDataset/German/confOf-de-classes_updated.nt"
     //var inputSource = "src/main/resources/EvaluationDataset/German/sigkdd-de-classes_updated.nt"
-//    var inputTarget = "src/main/resources/EvaluationDataset/English/cmt-en-classes_updated.nt"
+
+    //var inputTarget = "src/main/resources/EvaluationDataset/English/cmt-en-classes_updated.nt"
     //var inputTarget = "src/main/resources/EvaluationDataset/English/ekaw-en-classes_updated.nt"
     //var inputTarget = "src/main/resources/EvaluationDataset/English/edas-en-classes_updated.nt"
-    val inputTarget = "src/main/resources/CaseStudy/SEO_classes.nt"
-    val pre = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt"
+    //val inputTarget = "src/main/resources/CaseStudy/SEO_classes.nt"
+    val inputTarget = args(1)
 
-    val sparkConf = new SparkConf().setMaster("spark://172.18.160.16:3077")
+    //val pre = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt"
+    val pre = args(2)
+
+
+//    val sparkConf = new SparkConf().setMaster("spark://172.18.160.16:3077")
     Logger.getLogger("org").setLevel(Level.OFF)
     Logger.getLogger("akka").setLevel(Level.OFF)
     val sparkSession1 = SparkSession.builder
@@ -96,15 +104,25 @@ object Main {
 //      println("All classes in the source ontology Triples:" + sourceClassesWithoutURIs.size)
 //      sourceClassesWithoutURIs.foreach(println(_))
 //    var sourceClassesWithoutURIs: Array[String] = subOntology.map(x=>x._1).union(subOntology.map(y=>y._3)).distinct().collect()
-    var preprocessedSourceClasses: RDD[String] = sparkSession1.sparkContext.parallelize(p.posTag(sourceClassesWithoutURIs)).filter(x=>x.isEmpty == false).cache()
+    var germanTagger: MaxentTagger = new MaxentTagger(args(3))
+    var preprocessedSourceClasses: RDD[String] = sparkSession1.sparkContext.parallelize(p.posTag(sourceClassesWithoutURIs,germanTagger)).filter(x=>x.isEmpty == false).cache()
 //    var preprocessedSourceClassesWithOneWord: RDD[String] = preprocessedSourceClasses.filter(x=>x.split(" ").length == 1).distinct()
 //      println("All source classes after preprocessing "+preprocessedSourceClasses.count())
 //      preprocessedSourceClasses.foreach(println(_))
 
-    var t = targetClassesWithoutURIs.zipWithIndex().collect().toMap
-    var dc: Broadcast[Map[String, Long]] = sparkSession1.sparkContext.broadcast(t)
+      //Read many-to-one translation from csv file
+//    val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv")
+      val src = Source.fromFile(args(4))
+    //  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-confOf-de.csv")
+    //  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-sigkdd-de.csv")
+      val relevantTranslations: RDD[(String, List[String])] = sparkSession1.sparkContext.parallelize(src.getLines().toList.map(_.split(",").toList).map(x=>(x.head, x.tail)))
+//      relevantTranslations.foreach(println(_))
+//      println("Translation")
+
+    val t = targetClassesWithoutURIs.zipWithIndex().collect().toMap
+    val dc: Broadcast[Map[String, Long]] = sparkSession1.sparkContext.broadcast(t)
     val trans = new Translator(dc)
-    var sourceClassesWithAllAvailableTranslations: RDD[(String, List[String])] = trans.Translate(preprocessedSourceClasses).distinct()
+    val sourceClassesWithAllAvailableTranslations: RDD[(String, List[String])] = trans.Translate(preprocessedSourceClasses, relevantTranslations).distinct()
 //    println("All source with all translations "+sourceClassesWithAllAvailableTranslations.count())
 //    sourceClassesWithAllAvailableTranslations.foreach(println(_))
 
@@ -123,7 +141,7 @@ object Main {
 
     /*Experts should validate the translations in the output files*/
 //    val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_Translations_W.R.T.cmt.en.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
-val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-ConferenceTranslations_W_R_T_SEO.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
+val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile(args(5)).map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
     println("Validated translated source classes W.R.T SEO: ")
     validSourceTranslationsByExperts.take(70).foreach(println(_))
 

@@ -23,6 +23,7 @@
         <spark.version>2.3.1</spark.version>
         <sansa.version>0.4.1-SNAPSHOT</sansa.version>
         <jena.version>3.7.0</jena.version>
+        <stanford.corenlp.version>3.9.2</stanford.corenlp.version>
     </properties>
 
     <dependencies>
@@ -80,7 +81,19 @@
         <dependency>
             <groupId>edu.stanford.nlp</groupId>
             <artifactId>stanford-corenlp</artifactId>
-            <version>3.8.0</version>
+            <version>${stanford.corenlp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${stanford.corenlp.version}</version>
+            <classifier>models</classifier> <!--  will get the dependent model jars -->
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.nlp</groupId>
+            <artifactId>stanford-corenlp</artifactId>
+            <version>${stanford.corenlp.version}</version>
+            <classifier>models-german</classifier>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -190,7 +203,7 @@
                                     <exclude>org.apache.avro:avro*</exclude>
                                     <exclude>org.apache.commons:commons-lang3</exclude>
                                     <exclude>org.apache.commons:commons-math3</exclude>
-                                    <exclude>org.apache.commons:commons-compress</exclude>
+                                    <!--<exclude>org.apache.commons:commons-compress</exclude>-->
                                     <exclude>org.apache.curator:curator*</exclude>
                                     <exclude>org.apache.directory.api:*</exclude>
                                     <exclude>org.apache.directory.server:*</exclude>

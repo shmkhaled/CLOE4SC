@@ -8,15 +8,20 @@ import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 
-import scala.io.Source
-
 /*
 * Created by Shimaa 15.oct.2018
 * */
 
 object Main {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
+    //    val sparkConf = new SparkConf().setMaster("spark://172.18.160.16:3077")
+    Logger.getLogger("org").setLevel(Level.OFF)
+    Logger.getLogger("akka").setLevel(Level.OFF)
+    val sparkSession1 = SparkSession.builder
+          .master("local[*]")
+      .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+      .getOrCreate()
     val startTimeMillis = System.currentTimeMillis()
     //############################# Inputs for Evaluation #######################
     //val inputSource = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated.nt"
@@ -33,14 +38,6 @@ object Main {
     //val pre = "src/main/resources/EvaluationDataset/German/conference-de-classes_updated_preprocessed.nt"
     val pre = args(2)
 
-
-//    val sparkConf = new SparkConf().setMaster("spark://172.18.160.16:3077")
-    Logger.getLogger("org").setLevel(Level.OFF)
-    Logger.getLogger("akka").setLevel(Level.OFF)
-    val sparkSession1 = SparkSession.builder
-    .master("local[*]")
-    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .getOrCreate()
     val lang1: Lang = Lang.NTRIPLES
     val sourceOntology: RDD[graph.Triple] = sparkSession1.rdf(lang1)(inputSource)
     val targetOntology: RDD[graph.Triple] = sparkSession1.rdf(lang1)(inputTarget)
@@ -104,7 +101,7 @@ object Main {
 //      println("All classes in the source ontology Triples:" + sourceClassesWithoutURIs.size)
 //      sourceClassesWithoutURIs.foreach(println(_))
 //    var sourceClassesWithoutURIs: Array[String] = subOntology.map(x=>x._1).union(subOntology.map(y=>y._3)).distinct().collect()
-    var germanTagger: MaxentTagger = new MaxentTagger(args(3))
+    var germanTagger: MaxentTagger = new MaxentTagger("edu/stanford/nlp/models/pos-tagger/german/german-fast.tagger")
     var preprocessedSourceClasses: RDD[String] = sparkSession1.sparkContext.parallelize(p.posTag(sourceClassesWithoutURIs,germanTagger)).filter(x=>x.isEmpty == false).cache()
 //    var preprocessedSourceClassesWithOneWord: RDD[String] = preprocessedSourceClasses.filter(x=>x.split(" ").length == 1).distinct()
 //      println("All source classes after preprocessing "+preprocessedSourceClasses.count())
@@ -112,10 +109,9 @@ object Main {
 
       //Read many-to-one translation from csv file
 //    val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_new.csv")
-      val src = Source.fromFile(args(4))
     //  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-confOf-de.csv")
     //  val src = Source.fromFile("src/main/resources/EvaluationDataset/Translations/Translations-sigkdd-de.csv")
-      val relevantTranslations: RDD[(String, List[String])] = sparkSession1.sparkContext.parallelize(src.getLines().toList.map(_.split(",").toList).map(x=>(x.head, x.tail)))
+    val relevantTranslations: RDD[(String, List[String])] = sparkSession1.sparkContext.textFile(args(3)).map(_.split(",").toList).map(x=>(x.head, x.tail))
 //      relevantTranslations.foreach(println(_))
 //      println("Translation")
 
@@ -141,7 +137,7 @@ object Main {
 
     /*Experts should validate the translations in the output files*/
 //    val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile("src/main/resources/EvaluationDataset/Translations/Translations-conference-de_Translations_W.R.T.cmt.en.csv").map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
-val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile(args(5)).map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
+val validSourceTranslationsByExperts: RDD[(String, String)] = sparkSession1.sparkContext.textFile(args(4)).map(x=>x.split(",")).map(y=>(y.head.toLowerCase,y.last.toLowerCase))
     println("Validated translated source classes W.R.T SEO: ")
     validSourceTranslationsByExperts.take(70).foreach(println(_))
 

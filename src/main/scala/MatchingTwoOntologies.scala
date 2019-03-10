@@ -9,10 +9,10 @@ class MatchingTwoOntologies {
     var matchOntology: RDD[(String, String, String)] = sourceSubOntology.intersection(targetOntology)
 //      matchOntology.foreach(println(_))
 //    println("|        The source ontologyTriples after removing the common triples       |")
-    var sourceOntology = sourceSubOntology.subtract(matchOntology).filter(x=>x._2 != "type")//remove full matched triples from the source ontologyTriples
+    var sourceOntology: RDD[(String, String, String)] = sourceSubOntology.subtract(matchOntology).filter(x=>x._2 != "type")//remove full matched triples from the source ontologyTriples
 //    sourceOntology.foreach(println(_))
 
-    var tripelsForEnrichment = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> (s,p,o,'E')})
+    var tripelsForEnrichment: RDD[(String, String, String, Char)] = sourceOntology.keyBy(_._1).join(targetClassesWithoutURIs.zipWithIndex().keyBy(_._1)).map({case(a,((s,p,o),b))=> (s,p,o,'E')})
 //    println("##############################################")
     var tiplesForAdd = tripelsForEnrichment.keyBy(_._3).join(sourceSubOntology.keyBy(_._1)).map({case(a,((b,c,d,e),(s,p,o)))=> (s,p,o,'A')}).distinct().cache()
 //    tiplesForAdd.foreach(println(_))

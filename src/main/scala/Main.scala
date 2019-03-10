@@ -19,7 +19,8 @@ object Main {
     Logger.getLogger("org").setLevel(Level.OFF)
     Logger.getLogger("akka").setLevel(Level.OFF)
     val sparkSession1 = SparkSession.builder
-          .master("local[*]")
+//      .master("spark://172.18.160.16:3090")
+                .master("local[*]")
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .getOrCreate()
     val startTimeMillis = System.currentTimeMillis()
